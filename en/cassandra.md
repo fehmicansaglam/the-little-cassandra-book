@@ -19,8 +19,11 @@ CAP theorem describes tradeoffs in the guarantees that a distributed system desi
 The theorem states that of these three properties:
 
 Consistency: all nodes see the same data at the same time.
+
 Availability: node failures do not prevent survivors from continuing to operate.
-Partition tolerance: the system continues to operate despite message loss due to network and/or node failure
+
+Partition tolerance: the system continues to operate despite message loss due to network and/or node failure.
+
 only two can be satisfied simultaneously.
 
 Cassandra sits in the AP side of the CAP diagram. That means Cassandra is always available and can tolerate network partitions but it does not provide strong consistency. (Or does it? We'll see.)
@@ -42,3 +45,10 @@ When your requirement is to have a heavy write system and you want to have a res
 # How Cassandra Writes Data
 
 # How Cassandra Reads Data
+
+# Data Modeling
+
+## Partitions and rows
+Cassandra stores data in partitions. Each partition has a unique partition key which consists of one or more columns. If a partition key is defined by two or more columns that key is called a composite partition key.
+
+It is possible to store many rows in one partition. You can think of a row as a relational table row. Each row has a primary key. If the partition key is equal to the primary key then there can be only one row in that partition. If you add one or more columns to the primary key definition other than the partition key you enable multiple rows per partition. The columns in the primary key definition excluding the partition key are called clustering columns.
